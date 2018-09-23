@@ -1,0 +1,13 @@
+# how to get the credentials?
+GLOBUS_USER='bob'  # bob@globusid.org
+GLOBUS_PASSWORD='thisismypassword'
+SHORT_HOSTNAME='bob-test-globus-connect-container'
+
+# If behind NAT
+EXTERNAL_DNS_OR_IP='home.example.com'
+BEHIND_NAT='True'
+
+# Make sure your router/firewall is forwarding these ports to your container
+FTP_PORT_RANGE='50000,50100'
+FTP_CONTROL_PORT='2811'
+PROXY_PORT='7512'

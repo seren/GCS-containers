@@ -1,0 +1,37 @@
+Docker methods:
+
+Everything lives inside container. When container is recreated, endpoint needs to be recreated. No image necessary, just a dockerfile.
+  Plus: Can create multiple containers from image. No conflicts. Simple and contained.
+  Minus: Need to have user interaction with container after launch. No persistence if container is killed. Hard to upgrade. Image with tokens could be uploaded to repo.
+  Build time: Not necessary. GCS could be installed, but not run
+  Run time: All config done. Interaction required
+
+All config, including tokens, lives outside container.
+  Plus: Can regenerate container and re-user tokens. Easy to upgrade.
+  Minus: Could accidentally have multiple GCSs running off the same tokens. Tokens more exposed.
+  Build time: Not necessary. GCS could be installed, but not run.
+  Run time: No interaction required.
+
+
+Considerations:
+  Uploading images to repo with tokens inside
+  Running mutiple containers using the same name/tokens
+  Upgrading containers
+  Scripted setup. No cli interaction with container.
+
+
+Goal:
+  1. Script that prompts for info, then configures container with everything
+  2. Script that
+
+external script that:
+gathers info
+writes config
+builds docker image using config file
+ does endpoint reg. config files need to be stored on external mount
+ uses run.sh to run container, using config and key files from build stage
+
+
+Image in registry (used as base for a configured local build): Contains installed GCS version. It does nothing upon run except output a message on how to configure it. User runs, and if not configured, it prompts for input (how? user connects to container and gets menu?)
+Dockerfile + setup script: Script gathers info, writes config file (+ tokens?) into container
+    Could have script that backs-up and restores tokens and config

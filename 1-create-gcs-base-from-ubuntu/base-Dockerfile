@@ -1,0 +1,81 @@
+# GridFTP
+
+# inbound ports:
+# 2811 control channel (from 184.73.189.163 and 174.129.226.69)
+# 50000-51000 data channel
+# 7512 optional myproxy (from 174.129.226.69)
+# 443 optional oauth
+
+
+
+FROM ubuntu:16.04
+
+RUN apt-get -qq update
+RUN apt-get install -y wget gnupg apt-transport-https
+RUN wget http://toolkit.globus.org/ftppub/globus-connect-server/globus-connect-server-repo_latest_all.deb
+RUN dpkg -i globus-connect-server-repo_latest_all.deb
+RUN apt-get update
+RUN apt-get install -y globus-connect-server
+
+RUN apt-get install -y vim    # for testing
+
+
+#ENV GLOBUS_USER
+#ENV GLOBUS_PASSWORD
+#ENV SHORT_HOSTNAME seren-test-GC-aws
+
+
+ENV EXTERNAL_DNS_OR_IP=home.example.com
+ENV FTP_PORT_RANGE=50000,50008
+ENV FTP_CONTROL_PORT=2811
+ENV PROXY_PORT=7512
+
+
+
+
+
+#[GridFTP]
+#Server = public-gridftp.example.org:22811
+#ServerBehindNAT = True
+#IncomingPortRange = 4000,5000
+#[MyProxy]
+#Server = public-myproxy.example.org:17512
+#ServerBehindNAT = True
+#[OAuth]
+#Server = public-oauth.example.org
+#ServerBehindNAT = True
+
+
+## toolkit
+#wget http://www.globus.org/ftppub/gt6/installers/repo/globus-toolkit-repo%5flatest%5fall.deb
+#dpkg -i globus-toolkit-repo_latest_all.deb
+#apt-get -qq update
+#
+##from source
+##export LD_ASSUME_KERNEL=2.2.5  # Some kernel/libc combinations trigger a threading problem. See bug #2194.
+#
+#apt-get install -y globus-data-management-client
+
+
+
+#RUN apt-get install -y python
+
+#
+#RUN cd /usr/local/share && \
+#  curl https://s3.amazonaws.com/connect.globusonline.org/linux/stable/globusconnectpersonal-latest.tgz \
+#    | tar -xzC /usr/local/share/ && \
+#  mv /usr/local/share/globusconnectpersonal-* /usr/local/share/globusconnectpersonal
+#
+#COPY vars.txt /etc/gcp-vars
+#
+#RUN adduser --home /home/gcpuser --shell /bin/bash --disabled-password --gecos none gcpuser
+#WORKDIR /home/gcpuser
+#USER gcpuser
+#ENV USER gcpuser
+#
+#RUN . /etc/gcp-vars && /usr/local/share/globusconnectpersonal/globusconnectpersonal -setup $SETUPKEY
+#
+#CMD ["/usr/local/share/globusconnectpersonal/globusconnectpersonal","-start"]
+#
+## Add GCP to PATH
+#ENV PATH /usr/local/share/globusconnectpersonal/:$PATH
