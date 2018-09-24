@@ -3,7 +3,7 @@
 # Builds an generic image with GridFTP/Globus Connect installed but not configured
 #####
 
-set -euxo pipefail
+set -euo pipefail
 
 
 ######################################

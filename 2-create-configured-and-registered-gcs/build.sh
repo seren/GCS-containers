@@ -3,7 +3,7 @@
 # Builds an image with GridFTP/Globus Connect installed and registered
 #####
 
-set -euxo pipefail
+set -euo pipefail
 
 ######################################
 # Script functions
