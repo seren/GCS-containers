@@ -49,7 +49,7 @@ Server = ${EXTERNAL_DNS_OR_IP}
 ServerBehindNAT = ${BEHIND_NAT}
 EOF
 
-docker build --tag=local/gcs-configured assets/Dockerfile
+docker build --tag=local/gcs-configured -f assets/Dockerfile .
 
 rm assets/globus-connect-server.conf
 
